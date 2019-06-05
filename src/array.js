@@ -2,10 +2,9 @@
  * @Author: Benson
  * @Date: 2019-06-05 11:25:22
  * @LastEditors: Benson
- * @LastEditTime: 2019-06-05 14:15:21
+ * @LastEditTime: 2019-06-05 14:50:41
  * @Description: 数组
  */
-
 
 /**
  * 根据属性去重数组
@@ -25,7 +24,6 @@ export const uniqueBy = function (arr, key) {
 export const unique = (arr) =>
     arr.filter((element, index, array) => array.indexOf(element) === index)
 
-
 /**
  * 找出数组中该属性最大值的一列
  * @param {array} arr 
@@ -34,7 +32,6 @@ export const unique = (arr) =>
  */
 export const maxNumBy = (arr, key) =>
     arr.find(item => item[key] === Math.max.apply(Math, arr.map(row => row[key])))
-
 
 /**
  * 找出数组中该属性最小值的一列
@@ -45,7 +42,6 @@ export const maxNumBy = (arr, key) =>
 export const minNumBy = (arr, key) =>
     arr.find(item => item[key] === Math.min.apply(Math, arr.map(row => row[key])))
 
-
 /**
  * 数组中的最大值
  * @param {array} arr
@@ -53,7 +49,6 @@ export const minNumBy = (arr, key) =>
  */
 export const maxNum = (arr) =>
     Math.max.apply(Math, arr)
-
 
 /**
  * 数组中的最小值
