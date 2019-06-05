@@ -30,6 +30,6 @@ const toolcore = {
   // version
 }
 
-for(let key in toolcore) {
-  exports[key] = toolcore[key]
+for(let key in toolcore){
+	exports[key] = toolcore[key]
 }
