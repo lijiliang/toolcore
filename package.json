@@ -1,0 +1,29 @@
+{
+  "name": "toolcore",
+  "version": "0.1.0",
+  "description": "js 常用前端代码工具库",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lijiliang/toolcore.git"
+  },
+  "keywords": [
+    "toolcore",
+    "core",
+    "common",
+    "util",
+    "utils",
+    "lib",
+    "libs",
+    "javascript"
+  ],
+  "author": "Benson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lijiliang/toolcore/issues"
+  },
+  "homepage": "https://github.com/lijiliang/toolcore#readme"
+}
