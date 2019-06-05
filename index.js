@@ -1,8 +1,10 @@
 import { version } from './package.json'
-import * as obj from './libs/object'
-import * as arr from './libs/array'
+import * as types from './src/types'
+import * as obj from './src/object'
+import * as arr from './src/array'
 
 const toolcore = {
+  ...types,
   ...obj,
   ...arr,
   version: '0.1.0'

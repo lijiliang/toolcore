@@ -2,7 +2,7 @@
  * @Author: Benson
  * @Date: 2019-06-05 11:25:22
  * @LastEditors: Benson
- * @LastEditTime: 2019-06-05 12:05:39
+ * @LastEditTime: 2019-06-05 14:15:21
  * @Description: 数组
  */
 
@@ -66,7 +66,7 @@ export const minNum = (arr) =>
 /**
  * 将数组打乱
  * @param {array} arr 
- */    
+ */
 export const shuffle = (arr) => {
     let i = arr.length;
     while (i) {
@@ -74,4 +74,20 @@ export const shuffle = (arr) => {
         [arr[j], arr[i]] = [arr[i], arr[j]];
     }
     return arr
+}
+
+/**
+ *
+ * 判断两个数组是否相等
+ * @param {Array} arr1
+ * @param {Array} arr2
+ * @return {Boolean}
+ */
+export const equal = (arr1, arr2) => {
+  if (arr1 === arr2) return true
+  if (arr1.length !== arr2.length) return false
+  for (let i = 0; i < arr1.length; ++i) {
+      if (arr1[i] !== arr2[i]) return false
+  }
+  return true
 }
