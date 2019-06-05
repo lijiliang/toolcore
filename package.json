@@ -1,6 +1,6 @@
 {
   "name": "toolcore",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "js 常用前端代码工具库",
   "source": "index.js",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.js --no-source-maps",
-    "build": "parcel build index.js --global toolcore --no-source-maps --experimental-scope-hoisting --detailed-report"
+    "build": "parcel build index.js -t node --bundle-node-modules --global toolcore --no-source-maps --experimental-scope-hoisting --detailed-report"
   },
   "repository": {
     "type": "git",
