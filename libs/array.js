@@ -2,7 +2,7 @@
  * @Author: Benson
  * @Date: 2019-06-05 11:25:22
  * @LastEditors: Benson
- * @LastEditTime: 2019-06-05 12:04:19
+ * @LastEditTime: 2019-06-05 12:05:39
  * @Description: 数组
  */
 
@@ -62,3 +62,16 @@ export const maxNum = (arr) =>
  */
 export const minNum = (arr) =>
     Math.min.apply(Math, arr)
+
+/**
+ * 将数组打乱
+ * @param {array} arr 
+ */    
+export const shuffle = (arr) => {
+    let i = arr.length;
+    while (i) {
+        let j = Math.floor(Math.random() * i--);
+        [arr[j], arr[i]] = [arr[i], arr[j]];
+    }
+    return arr
+}
