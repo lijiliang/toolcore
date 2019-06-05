@@ -1,5 +1,5 @@
 import { version } from './package.json'
-import * as types from './src/types'
+import * as type from './src/types'
 import * as base64 from './src/base64'
 import * as array from './src/array'
 import * as date from './src/date'
@@ -14,7 +14,7 @@ import * as validator from './src/validator'
 
 
 const toolcore = {
-  ...types,
+  ...type,
   ...base64,
   ...array,
   ...date,
@@ -31,5 +31,5 @@ const toolcore = {
 }
 
 for(let key in toolcore){
-	exports[key] = toolcore[key]
+  exports[key] = toolcore[key]
 }
