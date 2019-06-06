@@ -4,11 +4,12 @@ import * as base64 from './src/base64'
 import * as array from './src/array'
 
 let toolcore = Object.assign({}, 
-  ...type,
-  ...base64,
-  ...array,
+  type,
+  base64,
+  array,
 )
-// {
+
+// const toolcore = {
 //   ...type,
 //   ...base64,
 //   ...array,
