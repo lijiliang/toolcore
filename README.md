@@ -14,7 +14,7 @@
 ### 浏览器:
 ``` html
 <script src="https://unpkg.com/toolcore"></script>
-<!-- <script src="./dist/index.js"></script> -->
+<!-- <script src="./dist/toolcore.min.js"></script> -->
 <script>
 	let max = toolcore.maxNum([12,3,31,5,3]) 
 	console.log(max) // => "31"
