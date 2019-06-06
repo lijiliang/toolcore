@@ -1,10 +1,10 @@
 {
   "name": "toolcore",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "js 常用前端代码工具库",
   "source": "index.js",
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "module": "index.js",
   "unpkg": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
