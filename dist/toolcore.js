@@ -1,5 +1,5 @@
 /*!
-  * toolcore v0.2.6
+  * toolcore v0.3.1
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -503,7 +503,7 @@ var unix = function (value) {
  * @Author: Benson
  * @Date: 2019-06-05 14:44:20
  * @LastEditors: Benson
- * @LastEditTime: 2019-06-05 14:47:24
+ * @LastEditTime: 2019-06-06 17:47:24
  * @Description: 函数
  */
 
@@ -599,7 +599,123 @@ var throttle = function (fn, delay) {
   }
 };
 
-var version = '0.2.6'; // 版本号
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 14:44:28
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:47:08
+ * @Description: 数字及数学计算
+ */
+
+/*
+ * @Description: 公共方法处理js计算科学记数法精度问题
+ * https://blog.csdn.net/zuorishu/article/details/83108988
+*/
+var countDecimals = function (num) {
+  var len = 0;
+  try {
+    num = Number(num);
+    var str = num.toString().toUpperCase();
+    if (str.split('E').length === 2) { // scientific notation
+      var isDecimal = false;
+      if (str.split('.').length === 2) {
+        str = str.split('.')[1];
+        if (parseInt(str.split('E')[0]) !== 0) {
+          isDecimal = true;
+        }
+      }
+      var x = str.split('E');
+      if (isDecimal) {
+        len = x[0].length;
+      }
+      len -= parseInt(x[1]);
+    } else if (str.split('.').length === 2) { // decimal
+      if (parseInt(str.split('.')[1]) !== 0) {
+        len = str.split('.')[1].length;
+      }
+    }
+  } catch (e) {
+    throw e
+  } finally {
+    if (isNaN(len) || len < 0) {
+      len = 0;
+    }
+  }
+  return len
+};
+
+var convertToInt = function (num) {
+  num = Number(num);
+  var newNum = num;
+  var times = countDecimals(num);
+  var tempNum = num.toString().toUpperCase();
+  if (tempNum.split('E').length === 2) {
+    newNum = Math.round(num * Math.pow(10, times));
+  } else {
+    newNum = Number(tempNum.replace('.', ''));
+  }
+  return newNum
+};
+
+var getCorrectResult = function (type, num1, num2, result) {
+  var tempResult = 0;
+  switch (type) {
+    case 'add':
+      tempResult = num1 + num2;
+      break
+    case 'sub':
+      tempResult = num1 - num2;
+      break
+    case 'div':
+      tempResult = num1 / num2;
+      break
+    case 'mul':
+      tempResult = num1 * num2;
+      break
+  }
+  if (Math.abs(result - tempResult) > 1) {
+    return tempResult
+  }
+  return result
+};
+
+/**
+ * 减法运算
+ * @param {Number} a
+ * @param {Number} b
+ * @example toolcore.accSub(0.3 , 0.2) // => 0.1
+ */
+var accSub = function (num1, num2) {
+  num1 = Number(num1);
+  num2 = Number(num2);
+  var dec1, dec2;
+  try { dec1 = countDecimals(num1) + 1; } catch (e) { dec1 = 0; }
+  try { dec2 = countDecimals(num2) + 1; } catch (e) { dec2 = 0; }
+  var times = Math.pow(10, Math.max(dec1, dec2));
+  // let result = Number(((num1 * times - num2 * times) / times);
+  var result = Number((accMul(num1, times) - accMul(num2, times)) / times);
+  return getCorrectResult('sub', num1, num2, result)
+};
+
+/**
+ * 乘法运算
+ * @param {Number} a
+ * @param {Number} b
+ * @example toolcore.accMul(0.3 , 1.5) // => 0.45
+ */
+function accMul (num1, num2) {
+  num1 = Number(num1);
+  num2 = Number(num2);
+  var times = 0;
+  var s1 = num1.toString();
+  var s2 = num2.toString();
+  try { times += countDecimals(s1); } catch (e) { times = 0; }
+  try { times += countDecimals(s2); } catch (e) { times = 0; }
+  var result = convertToInt(s1) * convertToInt(s2) / Math.pow(10, times);
+  return getCorrectResult('mul', num1, num2, result)
+}
+
+var version = '0.3.1'; // 版本号
 
 exports.isNull = isNull;
 exports.isUndefined = isUndefined;
@@ -631,6 +747,7 @@ exports.debounceStart = debounceStart;
 exports.debounceEnd = debounceEnd;
 exports.debounce = debounce;
 exports.throttle = throttle;
+exports.accSub = accSub;
 exports.version = version;
 
 Object.defineProperty(exports, '__esModule', { value: true });
