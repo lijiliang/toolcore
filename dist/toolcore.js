@@ -314,6 +314,91 @@ var equal = function (arr1, arr2) {
   return true
 };
 
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 14:44:07
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:48:14
+ * @Description: 日期
+ */
+
+/**
+ * 必填
+ * @param {String} key
+ */
+var requered = function (key) {
+  if ( key === void 0 ) key = '';
+
+  console.error(("缺少参数" + key));
+};
+/**
+ * 格式化时间
+ * @param {any} value
+ * @param {String} format
+ * @example toolcore.formatTime('2019/06/04 12:45:32','YYYY~MM~DD hh~mm~ss 星期W  季度Q') // => "2019~06~04 12~45~32 星期二  季度2"
+ */
+var formatTime = function (value, format) {
+  var nowDate = new Date(value);
+  var weeks = ['日', '一', '二', '三', '四', '五', '六'];
+  var time = (new Date(+nowDate + 8 * 3600 * 1000)).toISOString().substr(0, 19).replace(/[a-z]/i, ' ');
+  var ref = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/g.exec(time);
+  var _ = ref[0];
+  var YYYY = ref[1];
+  var MM = ref[2];
+  var DD = ref[3];
+  var hh = ref[4];
+  var mm = ref[5];
+  var ss = ref[6];
+  var filterTime = function (type, _) { return type.slice(0, _.length); };
+  return format.replace(/(Y{1,4})/g, function ($1) { return filterTime(YYYY, $1); })
+    .replace(/(M{1,2})/g, function ($1) { return filterTime(MM, $1); })
+    .replace(/(D{1,2})/g, function ($1) { return filterTime(DD, $1); })
+    .replace(/(h{1,2})/g, function ($1) { return filterTime(hh, $1); })
+    .replace(/(m{1,2})/g, function ($1) { return filterTime(mm, $1); })
+    .replace(/(s{1,2})/g, function ($1) { return filterTime(ss, $1); })
+    .replace(/(W{1})/g, function ($1) { return weeks[nowDate.getDay()]; })
+    .replace(/(Q{1})/g, function ($1) { return Math.floor((nowDate.getMonth() + 3) / 3); })
+};
+
+/**
+   * @param  {s} 秒数
+   * @return {String} 字符串
+   * @example toolcore.formatHMS(3610) // -> 1h0m10s
+   */
+var formatHMS = function (s) {
+  var str = '';
+  if (s > 3600 * 24) {
+    str = Math.floor(s / 3600 / 24) + 'd' + Math.floor(s / 3600 % 24) + 'h' + Math.floor(s % 3600 / 60) + 'm' + s % 60 + 's';
+  } else if (s > 3600) {
+    str = Math.floor(s / 3600) + 'h' + Math.floor(s % 3600 / 60) + 'm' + s % 60 + 's';
+  } else if (s > 60) {
+    str = Math.floor(s / 60) + 'm' + s % 60 + 's';
+  } else {
+    str = s % 60 + 's';
+  }
+  return str
+};
+
+/**
+   * 获取时间戳 (秒)
+   * @param {any} value
+   */
+var unix = function (value) {
+  if (value === void 0) { return unix(Date.now()) }
+  return Math.floor(new Date(value).getTime() / 1000)
+};
+
+/**
+   * 倒计时
+   * @param {any} target
+   */
+var countDown = function (target) {
+  if ( target === void 0 ) target = requered();
+
+  var time = unix(target) - unix();
+  return formatHMS(time)
+};
+
 var version = '0.2.6'; // 版本号
 
 exports.isNull = isNull;
@@ -339,8 +424,13 @@ exports.maxNum = maxNum;
 exports.minNum = minNum;
 exports.shuffle = shuffle;
 exports.equal = equal;
+exports.formatTime = formatTime;
+exports.formatHMS = formatHMS;
+exports.unix = unix;
+exports.countDown = countDown;
 exports.version = version;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
+//# sourceMappingURL=toolcore.js.map

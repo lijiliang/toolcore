@@ -1,4 +1,12 @@
 module.exports = {
   root: true,
-  extends: "standard"
+  extends: "standard",
+  rules: {
+
+  },
+  globals: {
+		jest: false,
+		test: false,
+		expect: false,
+	},
 }
