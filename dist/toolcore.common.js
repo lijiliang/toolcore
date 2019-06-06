@@ -1,5 +1,5 @@
 /*!
-  * toolcore v0.2.5
+  * toolcore v0.2.6
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -13,7 +13,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * @Author: Benson
  * @Date: 2019-06-05 10:52:26
  * @LastEditors: Benson
- * @LastEditTime: 2019-06-05 14:30:20
+ * @LastEditTime: 2019-06-06 14:30:20
  * @Description: 类型判断
  */
 
@@ -86,7 +86,7 @@ var getType = function (value) { return Object.prototype.toString.call(value).ma
 
 /**
  * 判断元素是否为空
- * @param {any} value 
+ * @param {any} value
  */
 var isEmpty = function (value) {
 	if(value === void(0) || value === null) { return true }
@@ -313,7 +313,7 @@ var equal = function (arr1, arr2) {
 
 // import { version } from './package.json'
 
-var version = '0.2.5'; // 版本号
+var version = '0.2.6'; // 版本号
 
 exports.isNull = isNull;
 exports.isUndefined = isUndefined;

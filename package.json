@@ -1,6 +1,6 @@
 {
   "name": "toolcore",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "js 常用前端代码工具库",
   "source": "index.js",
   "main": "dist/toolcore.common.js",

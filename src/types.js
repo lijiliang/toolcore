@@ -2,7 +2,7 @@
  * @Author: Benson
  * @Date: 2019-06-05 10:52:26
  * @LastEditors: Benson
- * @LastEditTime: 2019-06-05 14:30:20
+ * @LastEditTime: 2019-06-06 14:30:20
  * @Description: 类型判断
  */
 
@@ -75,7 +75,7 @@ export const getType = (value) => Object.prototype.toString.call(value).match(/\
 
 /**
  * 判断元素是否为空
- * @param {any} value 
+ * @param {any} value
  */
 export const isEmpty = (value) => {
 	if(value === void(0) || value === null) return true

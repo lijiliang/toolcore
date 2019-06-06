@@ -1,5 +1,5 @@
 /*!
-  * toolcore v0.2.5
+  * toolcore v0.2.6
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -9,7 +9,7 @@
  * @Author: Benson
  * @Date: 2019-06-05 10:52:26
  * @LastEditors: Benson
- * @LastEditTime: 2019-06-05 14:30:20
+ * @LastEditTime: 2019-06-06 14:30:20
  * @Description: 类型判断
  */
 
@@ -82,7 +82,7 @@ const getType = (value) => Object.prototype.toString.call(value).match(/\s([a-z]
 
 /**
  * 判断元素是否为空
- * @param {any} value 
+ * @param {any} value
  */
 const isEmpty = (value) => {
 	if(value === void(0) || value === null) return true
@@ -308,6 +308,6 @@ const equal = (arr1, arr2) => {
 
 // import { version } from './package.json'
 
-const version = '0.2.5'; // 版本号
+const version = '0.2.6'; // 版本号
 
 export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, inBrowser, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, version };

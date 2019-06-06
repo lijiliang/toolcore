@@ -13,7 +13,7 @@
 
 ### 浏览器:
 ``` html
-<script src="./node_modules/toolcore/dist/index.js"></script>
+<script src="https://unpkg.com/toolcore"></script>
 <!-- <script src="./dist/index.js"></script> -->
 <script>
 	let max = toolcore.maxNum([12,3,31,5,3]) 
@@ -38,7 +38,7 @@ React、VueJS,小程序等javascript环境
 
 ``` javascript
 // 完整引入
-import toolcore from 'toolcore' // 或 import toolcore from 'toolcore/dist/index.js'
+import toolcore from 'toolcore'
 let txt = toolcore.mask('12398765432',3,7) 
 console.log(txt) // => "123****5432"
 ```
@@ -47,12 +47,27 @@ console.log(txt) // => "123****5432"
 
 你真的不需要完整引入所有函数，所以只引入需要使用的方法即可。
 ``` javascript
-import { mask } from 'toolcore' // 或 import { mask } from 'toolcore/dist/index.js'
+import { mask } from 'toolcore'
 let txt = mask('12398765432',3,7) 
 console.log(txt) // => "123****5432"
 ```
 
 ## :package:  API文档
+
+> ###  [TypeOf](https://github.com/lijiliang/toolcore/blob/master/src/types.js)
+
+- isNull 判断类型Null。
+- isUndefined 判断类型Undefined。
+- isBoolean 判断类型Boolean。
+- isNumber 判断类型Number。
+- isString 判断类型String。
+- isSymbol 判断类型Symbol。
+- isObject 判断类型Object。
+- isRegExp 判断类型RegExp。
+- isArray 判断类型Array。
+- isFunction 判断类型Function。
+- getType 获取类型，全能型的typeOf。
+- inBrowser 判断是否为浏览器。
 
 > ###  [Array](https://github.com/lijiliang/toolcore/blob/master/src/array.js)
 
