@@ -1,6 +1,6 @@
 {
   "name": "toolcore",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "js 常用前端代码工具库",
   "source": "index.js",
   "main": "dist/toolcore.common.js",
@@ -8,11 +8,10 @@
   "unpkg": "dist/toolcore.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel index.js --no-source-maps",
-    "build": "parcel build index.js --global toolcore --no-source-maps --experimental-scope-hoisting --detailed-report",
-    "dev:dist": "rollup -wm -c build/rollup.dev.config.js",
-    "build:dist": "node build/build.js",
-    "build:test": "rollup index.js --file bundle.js --format umd --name 'toolcore'"
+    "dev": "rollup -wm -c build/rollup.dev.config.js",
+    "build": "node build/build.js",
+    "dev:parcel": "parcel index.js --no-source-maps",
+    "build:parcel": "parcel build index.js --global toolcore --no-source-maps --experimental-scope-hoisting --detailed-report"
   },
   "repository": {
     "type": "git",

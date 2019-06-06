@@ -1,8 +1,97 @@
 /*!
-  * toolcore v0.2.1
-  * (c) 2019 Benson
+  * toolcore v0.2.3
+  * https://github.com/lijiliang/toolcore
+  * 
+  * Copyright (c) 2019 Benson
   * @license MIT
   */
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 10:52:26
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:30:20
+ * @Description: 类型判断
+ */
+
+/**
+ * 判断类型Null
+ * @param {any} value 
+ */
+const isNull = value => Object.prototype.toString.call(value) == "[object Null]";
+
+/**
+ * 判断类型Undefined 
+ * @param {any} value 
+ */
+const isUndefined = value => value === void 0;
+
+/**
+ * 判断类型Boolean
+ * @param {any} value 
+ */
+const isBoolean = value => typeof(value) === 'boolean';
+
+/**
+ * 判断类型Number
+ * @param {any} value 
+ */
+const isNumber = value => typeof(value) === 'number';
+
+/**
+ * 判断类型String
+ * @param {any} value 
+ */
+const isString = value => typeof(value) === 'string';
+
+/**
+ * 判断类型Symbol
+ * @param {any} value 
+ */
+const isSymbol = value => Object.prototype.toString.call(value) == "[object Symbol]";
+
+/**
+ * 判断类型Object
+ * @param {any} value 
+ */
+const isObject = value => Object.prototype.toString.call(value) == "[object Object]";
+
+/**
+ * 判断类型RegExp
+ * @param {any} value 
+ */
+const isRegExp = value=> Object.prototype.toString.call(value) == "[object RegExp]";
+
+/**
+ * 判断类型Array
+ * @param {any} value 
+ */
+const isArray = value => Object.prototype.toString.call(value) == "[object Array]";
+
+/**
+ * 判断类型Function
+ * @param {any} value 
+ */
+const isFunction = value => Object.prototype.toString.call(value) == "[object Function]";
+
+/**
+ * 获取数据类型
+ * @param {any} value
+ * @example utilscore.getType(null) // => "null"
+ */
+const getType = (value) => Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLocaleLowerCase();
+
+/**
+ * 判断元素是否为空
+ * @param {any} value 
+ */
+const isEmpty = (value) => {
+	if(value === void(0) || value === null) return true
+    else if(isObject(value)) return !Object.keys(value).length
+    else if(isArray(value)) return !value.length
+    else if(isString(value)) return !value
+	else return value.toString().length == 0
+};
+
 /*
  * @Author: Benson
  * @Date: 2019-06-05 14:34:55
@@ -122,6 +211,97 @@ function _utf8_decode(utftext) {
   return string;
 }
 
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 11:25:22
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:50:41
+ * @Description: 数组
+ */
+
+/**
+ * 根据属性去重数组
+ * @param {array} arr 去重的数组
+ * @param {string} key 去重的key
+ * @example toolcore.uniqueBy([{name:'1111'},{name:'1111'},{name:'222'},{name:'333'}],'name') => [{name:'1111'},{name:'222'},{name:'333'}
+ */
+const uniqueBy = function (arr, key) {
+  return arr.filter((element, index, array) => array.findIndex(row => row[key] === element[key]) === index)
+};
+
+/**
+ * 普通数组去重
+ * @param {array} arr 去重的数组
+ * @example toolcore.unique([1,2,2,3,4,3,4,7]) => [1, 2, 3, 4, 7]
+ */
+const unique = (arr) =>
+    arr.filter((element, index, array) => array.indexOf(element) === index);
+
+/**
+ * 找出数组中该属性最大值的一列
+ * @param {array} arr 
+ * @param {string} key 
+ * @example toolcore.maxNumBy([{num:55},{num:541},{num:41}],'num') // => {num: 541}
+ */
+const maxNumBy = (arr, key) =>
+    arr.find(item => item[key] === Math.max.apply(Math, arr.map(row => row[key])));
+
+/**
+ * 找出数组中该属性最小值的一列
+ * @param {array} arr 
+ * @param {string} key 
+ * @example toolcore.minNumBy([{num:55},{num:541},{num:41}],'num') // =>  {num: 41}
+ */
+const minNumBy = (arr, key) =>
+    arr.find(item => item[key] === Math.min.apply(Math, arr.map(row => row[key])));
+
+/**
+ * 数组中的最大值
+ * @param {array} arr
+ * @example toolcore.maxNum([12,3,31,5,3]) // => 31 
+ */
+const maxNum = (arr) =>
+    Math.max.apply(Math, arr);
+
+/**
+ * 数组中的最小值
+ * @param {array} arr 
+ * @example toolcore.minNum([12,3,31,5,3]) // => 3 
+ */
+const minNum = (arr) =>
+    Math.min.apply(Math, arr);
+
+/**
+ * 将数组打乱
+ * @param {array} arr 
+ */
+const shuffle = (arr) => {
+    let i = arr.length;
+    while (i) {
+        let j = Math.floor(Math.random() * i--);
+        [arr[j], arr[i]] = [arr[i], arr[j]];
+    }
+    return arr
+};
+
+/**
+ *
+ * 判断两个数组是否相等
+ * @param {Array} arr1
+ * @param {Array} arr2
+ * @return {Boolean}
+ */
+const equal = (arr1, arr2) => {
+  if (arr1 === arr2) return true
+  if (arr1.length !== arr2.length) return false
+  for (let i = 0; i < arr1.length; ++i) {
+      if (arr1[i] !== arr2[i]) return false
+  }
+  return true
+};
+
 // import { version } from './package.json'
 
-export { encode, decode };
+const version = '0.2.3'; // 版本号
+
+export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, version };

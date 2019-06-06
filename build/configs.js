@@ -5,13 +5,15 @@ const cjs = require('rollup-plugin-commonjs')
 const node = require('rollup-plugin-node-resolve')
 const replace = require('rollup-plugin-replace')
 const version = process.env.VERSION || require('../package.json').version
+
 const banner =
 `/*!
   * toolcore v${version}
-  * (c) ${new Date().getFullYear()} Benson
+  * https://github.com/lijiliang/toolcore
+  * 
+  * Copyright (c) ${new Date().getFullYear()} Benson
   * @license MIT
   */`
-
 const resolve = _path => path.resolve(__dirname, '../', _path)
 
 module.exports = [

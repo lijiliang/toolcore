@@ -84,3 +84,9 @@ export const isEmpty = (value) => {
     else if(isString(value)) return !value
 	else return value.toString().length == 0
 };
+
+/**
+ * 判断是否为浏览器
+ * @param {any} value 
+ */
+export const inBrowser = typeof window !== 'undefined'

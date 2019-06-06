@@ -1,6 +1,8 @@
 /*!
-  * toolcore v0.2.1
-  * (c) 2019 Benson
+  * toolcore v0.2.3
+  * https://github.com/lijiliang/toolcore
+  * 
+  * Copyright (c) 2019 Benson
   * @license MIT
   */
 (function (global, factory) {
@@ -8,6 +10,99 @@
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
 	(factory((global.toolcore = {})));
 }(this, (function (exports) { 'use strict';
+
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 10:52:26
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:30:20
+ * @Description: 类型判断
+ */
+
+/**
+ * 判断类型Null
+ * @param {any} value 
+ */
+var isNull = function (value) { return Object.prototype.toString.call(value) == "[object Null]"; };
+
+/**
+ * 判断类型Undefined 
+ * @param {any} value 
+ */
+var isUndefined = function (value) { return value === void 0; };
+
+/**
+ * 判断类型Boolean
+ * @param {any} value 
+ */
+var isBoolean = function (value) { return typeof(value) === 'boolean'; };
+
+/**
+ * 判断类型Number
+ * @param {any} value 
+ */
+var isNumber = function (value) { return typeof(value) === 'number'; };
+
+/**
+ * 判断类型String
+ * @param {any} value 
+ */
+var isString = function (value) { return typeof(value) === 'string'; };
+
+/**
+ * 判断类型Symbol
+ * @param {any} value 
+ */
+var isSymbol = function (value) { return Object.prototype.toString.call(value) == "[object Symbol]"; };
+
+/**
+ * 判断类型Object
+ * @param {any} value 
+ */
+var isObject = function (value) { return Object.prototype.toString.call(value) == "[object Object]"; };
+
+/**
+ * 判断类型RegExp
+ * @param {any} value 
+ */
+var isRegExp = function (value){ return Object.prototype.toString.call(value) == "[object RegExp]"; };
+
+/**
+ * 判断类型Array
+ * @param {any} value 
+ */
+var isArray = function (value) { return Object.prototype.toString.call(value) == "[object Array]"; };
+
+/**
+ * 判断类型Function
+ * @param {any} value 
+ */
+var isFunction = function (value) { return Object.prototype.toString.call(value) == "[object Function]"; };
+
+/**
+ * 获取数据类型
+ * @param {any} value
+ * @example utilscore.getType(null) // => "null"
+ */
+var getType = function (value) { return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLocaleLowerCase(); };
+
+/**
+ * 判断元素是否为空
+ * @param {any} value 
+ */
+var isEmpty = function (value) {
+	if(value === void(0) || value === null) { return true }
+    else if(isObject(value)) { return !Object.keys(value).length }
+    else if(isArray(value)) { return !value.length }
+    else if(isString(value)) { return !value }
+	else { return value.toString().length == 0 }
+};
+
+/**
+ * 判断是否为浏览器
+ * @param {any} value 
+ */
+var inBrowser = typeof window !== 'undefined';
 
 /*
  * @Author: Benson
@@ -132,11 +227,122 @@ function _utf8_decode(utftext) {
   return string;
 }
 
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 11:25:22
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:50:41
+ * @Description: 数组
+ */
+
+/**
+ * 根据属性去重数组
+ * @param {array} arr 去重的数组
+ * @param {string} key 去重的key
+ * @example toolcore.uniqueBy([{name:'1111'},{name:'1111'},{name:'222'},{name:'333'}],'name') => [{name:'1111'},{name:'222'},{name:'333'}
+ */
+var uniqueBy = function (arr, key) {
+  return arr.filter(function (element, index, array) { return array.findIndex(function (row) { return row[key] === element[key]; }) === index; })
+};
+
+/**
+ * 普通数组去重
+ * @param {array} arr 去重的数组
+ * @example toolcore.unique([1,2,2,3,4,3,4,7]) => [1, 2, 3, 4, 7]
+ */
+var unique = function (arr) { return arr.filter(function (element, index, array) { return array.indexOf(element) === index; }); };
+
+/**
+ * 找出数组中该属性最大值的一列
+ * @param {array} arr 
+ * @param {string} key 
+ * @example toolcore.maxNumBy([{num:55},{num:541},{num:41}],'num') // => {num: 541}
+ */
+var maxNumBy = function (arr, key) { return arr.find(function (item) { return item[key] === Math.max.apply(Math, arr.map(function (row) { return row[key]; })); }); };
+
+/**
+ * 找出数组中该属性最小值的一列
+ * @param {array} arr 
+ * @param {string} key 
+ * @example toolcore.minNumBy([{num:55},{num:541},{num:41}],'num') // =>  {num: 41}
+ */
+var minNumBy = function (arr, key) { return arr.find(function (item) { return item[key] === Math.min.apply(Math, arr.map(function (row) { return row[key]; })); }); };
+
+/**
+ * 数组中的最大值
+ * @param {array} arr
+ * @example toolcore.maxNum([12,3,31,5,3]) // => 31 
+ */
+var maxNum = function (arr) { return Math.max.apply(Math, arr); };
+
+/**
+ * 数组中的最小值
+ * @param {array} arr 
+ * @example toolcore.minNum([12,3,31,5,3]) // => 3 
+ */
+var minNum = function (arr) { return Math.min.apply(Math, arr); };
+
+/**
+ * 将数组打乱
+ * @param {array} arr 
+ */
+var shuffle = function (arr) {
+    var assign;
+
+    var i = arr.length;
+    while (i) {
+        var j = Math.floor(Math.random() * i--);
+        (assign = [arr[i], arr[j]], arr[j] = assign[0], arr[i] = assign[1]);
+    }
+    return arr
+};
+
+/**
+ *
+ * 判断两个数组是否相等
+ * @param {Array} arr1
+ * @param {Array} arr2
+ * @return {Boolean}
+ */
+var equal = function (arr1, arr2) {
+  if (arr1 === arr2) { return true }
+  if (arr1.length !== arr2.length) { return false }
+  for (var i = 0; i < arr1.length; ++i) {
+      if (arr1[i] !== arr2[i]) { return false }
+  }
+  return true
+};
+
 // import { version } from './package.json'
 
+var version = '0.2.3'; // 版本号
+
+exports.isNull = isNull;
+exports.isUndefined = isUndefined;
+exports.isBoolean = isBoolean;
+exports.isNumber = isNumber;
+exports.isString = isString;
+exports.isSymbol = isSymbol;
+exports.isObject = isObject;
+exports.isRegExp = isRegExp;
+exports.isArray = isArray;
+exports.isFunction = isFunction;
+exports.getType = getType;
+exports.isEmpty = isEmpty;
+exports.inBrowser = inBrowser;
 exports.encode = encode;
 exports.decode = decode;
+exports.uniqueBy = uniqueBy;
+exports.unique = unique;
+exports.maxNumBy = maxNumBy;
+exports.minNumBy = minNumBy;
+exports.maxNum = maxNum;
+exports.minNum = minNum;
+exports.shuffle = shuffle;
+exports.equal = equal;
+exports.version = version;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
+//# sourceMappingURL=toolcore.js.map
