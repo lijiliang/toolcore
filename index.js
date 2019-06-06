@@ -16,7 +16,10 @@ let toolcore = Object.assign({},
 //   version: '0.1.0'
 //   // version
 // }
+console.log(toolcore)
+// for(let key in toolcore){
+//   console.log( module.exports[key], toolcore[key])
+//   module.exports[key] = toolcore[key]
+// }
 
-for(let key in toolcore){
-  exports[key] = toolcore[key]
-}
+module.exports = toolcore
