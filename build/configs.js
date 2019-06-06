@@ -7,8 +7,8 @@ const replace = require('rollup-plugin-replace')
 const version = process.env.VERSION || require('../package.json').version
 const banner =
 `/*!
-  * vue-router v${version}
-  * (c) ${new Date().getFullYear()} Evan You
+  * toolcore v${version}
+  * (c) ${new Date().getFullYear()} Benson
   * @license MIT
   */`
 
@@ -17,31 +17,31 @@ const resolve = _path => path.resolve(__dirname, '../', _path)
 module.exports = [
   // browser dev
   {
-    file: resolve('dist/vue-router.js'),
+    file: resolve('dist/toolcore.js'),
     format: 'umd',
     env: 'development'
   },
   {
-    file: resolve('dist/vue-router.min.js'),
+    file: resolve('dist/toolcore.min.js'),
     format: 'umd',
     env: 'production'
   },
   {
-    file: resolve('dist/vue-router.common.js'),
+    file: resolve('dist/toolcore.common.js'),
     format: 'cjs'
   },
   {
-    file: resolve('dist/vue-router.esm.js'),
+    file: resolve('dist/toolcore.esm.js'),
     format: 'es'
   },
   {
-    file: resolve('dist/vue-router.esm.browser.js'),
+    file: resolve('dist/toolcore.esm.browser.js'),
     format: 'es',
     env: 'development',
     transpile: false
   },
   {
-    file: resolve('dist/vue-router.esm.browser.min.js'),
+    file: resolve('dist/toolcore.esm.browser.min.js'),
     format: 'es',
     env: 'production',
     transpile: false
@@ -65,7 +65,7 @@ function genConfig (opts) {
       file: opts.file,
       format: opts.format,
       banner,
-      name: 'VueRouter'
+      name: 'toolcore'
     }
   }
 
