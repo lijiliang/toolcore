@@ -497,6 +497,103 @@ var unix = function (value) {
 //     .replace(/(Q{1})/g, ($1) => Math.floor((nowDate.getMonth() + 3) / 3))
 // }
 
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 14:44:20
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:47:24
+ * @Description: 函数
+ */
+
+/**
+ * 函数防抖 (立即执行版)
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ */
+var debounceStart = function (fn, delay) {
+  if ( delay === void 0 ) delay = 3000;
+
+  var timer = null;
+  var status = true;
+  clearTimeout(timer);
+  if (status) {
+    status = false;
+    fn.call(this, arguments);
+  }
+  // eslint-disable-next-line no-return-assign
+  timer = setTimeout(function () { return status = true; }, delay);
+};
+
+/**
+ * 函数防抖 (非立即执行版)
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ */
+var debounceEnd = function (fn, delay) {
+  var timer = null;
+  return function () {
+    var this$1 = this;
+
+    var args = arguments;
+    if (timer) { clearTimeout(timer); }
+    timer = setTimeout(function () {
+      fn.apply(this$1, args);
+    }, delay);
+  }
+};
+
+/**
+ * 函数防抖 (完全版)
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ * @param {boolean} immediate true 表立即执行，false 表非立即执行
+ */
+var debounce = function (fn, delay, immediate) {
+  if ( immediate === void 0 ) immediate = false;
+
+  var timer = null;
+  var status = true;
+  if (!immediate) {
+    return function () {
+      var this$1 = this;
+
+      var args = arguments;
+      if (timer) { clearTimeout(timer); }
+      timer = setTimeout(function () { return fn.apply(this$1, args); }, delay);
+    }
+  } else {
+    return function () {
+      clearTimeout(timer);
+      if (status) {
+        status = false;
+        fn.call(this, arguments);
+      }
+      // eslint-disable-next-line no-return-assign
+      timer = setTimeout(function () { return status = true; }, delay);
+    }
+  }
+};
+
+/**
+ * 函数节流
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ */
+var throttle = function (fn, delay) {
+  var timer = null;
+  return function () {
+    var this$1 = this;
+
+    var args = arguments;
+    if (!timer) {
+      timer = setTimeout(function () {
+        timer = null;
+        fn.apply(this$1, args);
+      }, delay);
+    }
+  }
+};
+
 var version = '0.3.1'; // 版本号
 
 exports.isNull = isNull;
@@ -525,4 +622,8 @@ exports.equal = equal;
 exports.timejs = timejs;
 exports.formatHMS = formatHMS;
 exports.unix = unix;
+exports.debounceStart = debounceStart;
+exports.debounceEnd = debounceEnd;
+exports.debounce = debounce;
+exports.throttle = throttle;
 exports.version = version;

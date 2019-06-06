@@ -488,6 +488,93 @@ const unix = (value) => {
 //     .replace(/(Q{1})/g, ($1) => Math.floor((nowDate.getMonth() + 3) / 3))
 // }
 
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 14:44:20
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-05 14:47:24
+ * @Description: 函数
+ */
+
+/**
+ * 函数防抖 (立即执行版)
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ */
+const debounceStart = function (fn, delay = 3000) {
+  let timer = null;
+  let status = true;
+  clearTimeout(timer);
+  if (status) {
+    status = false;
+    fn.call(this, arguments);
+  }
+  // eslint-disable-next-line no-return-assign
+  timer = setTimeout(() => status = true, delay);
+};
+
+/**
+ * 函数防抖 (非立即执行版)
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ */
+const debounceEnd = (fn, delay) => {
+  let timer = null;
+  return function () {
+    let args = arguments;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  }
+};
+
+/**
+ * 函数防抖 (完全版)
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ * @param {boolean} immediate true 表立即执行，false 表非立即执行
+ */
+const debounce = (fn, delay, immediate = false) => {
+  let timer = null;
+  let status = true;
+  if (!immediate) {
+    return function () {
+      let args = arguments;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), delay);
+    }
+  } else {
+    return function () {
+      clearTimeout(timer);
+      if (status) {
+        status = false;
+        fn.call(this, arguments);
+      }
+      // eslint-disable-next-line no-return-assign
+      timer = setTimeout(() => status = true, delay);
+    }
+  }
+};
+
+/**
+ * 函数节流
+ * @param {function} fn 函数
+ * @param {number} delay 延迟执行毫秒数
+ */
+const throttle = (fn, delay) => {
+  let timer = null;
+  return function () {
+    let args = arguments;
+    if (!timer) {
+      timer = setTimeout(() => {
+        timer = null;
+        fn.apply(this, args);
+      }, delay);
+    }
+  }
+};
+
 const version = '0.3.1'; // 版本号
 
-export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, inBrowser, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, timejs, formatHMS, unix, version };
+export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, inBrowser, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, timejs, formatHMS, unix, debounceStart, debounceEnd, debounce, throttle, version };

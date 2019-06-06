@@ -2,6 +2,7 @@ import { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject,
 import { encode, decode } from './src/base64'
 import { uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal } from './src/array'
 import { timejs, formatHMS, unix } from './src/date'
+import { debounceStart, debounceEnd, debounce, throttle } from './src/function'
 
 const version = '__VERSION__' // 版本号
 
@@ -10,5 +11,6 @@ export {
   encode, decode,
   uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal,
   timejs, formatHMS, unix,
+  debounceStart, debounceEnd, debounce, throttle,
   version
 }
