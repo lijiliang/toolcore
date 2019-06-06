@@ -1,5 +1,5 @@
 /*!
-  * toolcore v0.3.0
+  * toolcore v0.3.1
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -488,6 +488,6 @@ const unix = (value) => {
 //     .replace(/(Q{1})/g, ($1) => Math.floor((nowDate.getMonth() + 3) / 3))
 // }
 
-const version = '0.3.0'; // 版本号
+const version = '0.3.1'; // 版本号
 
 export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, inBrowser, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, timejs, formatHMS, unix, version };

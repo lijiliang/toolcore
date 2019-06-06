@@ -1,5 +1,5 @@
 /*!
-  * toolcore v0.3.0
+  * toolcore v0.3.1
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -499,7 +499,7 @@ var unix = function (value) {
 //     .replace(/(Q{1})/g, ($1) => Math.floor((nowDate.getMonth() + 3) / 3))
 // }
 
-var version = '0.3.0'; // 版本号
+var version = '0.3.1'; // 版本号
 
 exports.isNull = isNull;
 exports.isUndefined = isUndefined;
