@@ -8,7 +8,7 @@
 
 ## 安装使用
 
-1. 直接下载`dist`目录下的[index.js](https://github.com/lijiliang/toolcore/blob/master/dist/index.js)使用,支持UMD,CommonJS,ES6各模块化规范。
+1. 直接下载`dist`目录下的[toolcore.min.js](https://github.com/lijiliang/toolcore/blob/master/dist/toolcore.min.js)使用,支持UMD,CommonJS,ES6各模块化规范。
 2. 使用npm/yarn/cnpm安装,支持CommonJS,ES6各模块化规范。
 
 ### 浏览器:

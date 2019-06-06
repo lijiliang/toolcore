@@ -8,63 +8,63 @@
 
 /**
  * 判断类型Null
- * @param {any} value 
+ * @param {any} value
  */
-export const isNull = value => Object.prototype.toString.call(value) == "[object Null]"
+export const isNull = value => Object.prototype.toString.call(value) === '[object Null]'
 
 /**
- * 判断类型Undefined 
- * @param {any} value 
+ * 判断类型Undefined
+ * @param {any} value
  */
 export const isUndefined = value => value === void 0
 
 /**
  * 判断类型Boolean
- * @param {any} value 
+ * @param {any} value
  */
-export const isBoolean = value => typeof(value) === 'boolean'
+export const isBoolean = value => typeof (value) === 'boolean'
 
 /**
  * 判断类型Number
- * @param {any} value 
+ * @param {any} value
  */
-export const isNumber = value => typeof(value) === 'number'
+export const isNumber = value => typeof (value) === 'number'
 
 /**
  * 判断类型String
- * @param {any} value 
+ * @param {any} value
  */
-export const isString = value => typeof(value) === 'string'
+export const isString = value => typeof (value) === 'string'
 
 /**
  * 判断类型Symbol
- * @param {any} value 
+ * @param {any} value
  */
-export const isSymbol = value => Object.prototype.toString.call(value) == "[object Symbol]"
+export const isSymbol = value => Object.prototype.toString.call(value) === '[object Symbol]'
 
 /**
  * 判断类型Object
- * @param {any} value 
+ * @param {any} value
  */
-export const isObject = value => Object.prototype.toString.call(value) == "[object Object]"
+export const isObject = value => Object.prototype.toString.call(value) === '[object Object]'
 
 /**
  * 判断类型RegExp
- * @param {any} value 
+ * @param {any} value
  */
-export const isRegExp = value=> Object.prototype.toString.call(value) == "[object RegExp]"
+export const isRegExp = value => Object.prototype.toString.call(value) === '[object RegExp]'
 
 /**
  * 判断类型Array
- * @param {any} value 
+ * @param {any} value
  */
-export const isArray = value => Object.prototype.toString.call(value) == "[object Array]"
+export const isArray = value => Object.prototype.toString.call(value) === '[object Array]'
 
 /**
  * 判断类型Function
- * @param {any} value 
+ * @param {any} value
  */
-export const isFunction = value => Object.prototype.toString.call(value) == "[object Function]"
+export const isFunction = value => Object.prototype.toString.call(value) === '[object Function]'
 
 /**
  * 获取数据类型
@@ -78,15 +78,15 @@ export const getType = (value) => Object.prototype.toString.call(value).match(/\
  * @param {any} value
  */
 export const isEmpty = (value) => {
-	if(value === void(0) || value === null) return true
-    else if(isObject(value)) return !Object.keys(value).length
-    else if(isArray(value)) return !value.length
-    else if(isString(value)) return !value
-	else return value.toString().length == 0
-};
+  if (value === void (0) || value === null) return true
+  else if (isObject(value)) return !Object.keys(value).length
+  else if (isArray(value)) return !value.length
+  else if (isString(value)) return !value
+  else return value.toString().length === 0
+}
 
 /**
  * 判断是否为浏览器
- * @param {any} value 
+ * @param {any} value
  */
 export const inBrowser = typeof window !== 'undefined'

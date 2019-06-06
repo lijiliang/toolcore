@@ -22,53 +22,53 @@ export const uniqueBy = function (arr, key) {
  * @example toolcore.unique([1,2,2,3,4,3,4,7]) => [1, 2, 3, 4, 7]
  */
 export const unique = (arr) =>
-    arr.filter((element, index, array) => array.indexOf(element) === index)
+  arr.filter((element, index, array) => array.indexOf(element) === index)
 
 /**
  * 找出数组中该属性最大值的一列
- * @param {array} arr 
- * @param {string} key 
+ * @param {array} arr
+ * @param {string} key
  * @example toolcore.maxNumBy([{num:55},{num:541},{num:41}],'num') // => {num: 541}
  */
 export const maxNumBy = (arr, key) =>
-    arr.find(item => item[key] === Math.max.apply(Math, arr.map(row => row[key])))
+  arr.find(item => item[key] === Math.max.apply(Math, arr.map(row => row[key])))
 
 /**
  * 找出数组中该属性最小值的一列
- * @param {array} arr 
- * @param {string} key 
+ * @param {array} arr
+ * @param {string} key
  * @example toolcore.minNumBy([{num:55},{num:541},{num:41}],'num') // =>  {num: 41}
  */
 export const minNumBy = (arr, key) =>
-    arr.find(item => item[key] === Math.min.apply(Math, arr.map(row => row[key])))
+  arr.find(item => item[key] === Math.min.apply(Math, arr.map(row => row[key])))
 
 /**
  * 数组中的最大值
  * @param {array} arr
- * @example toolcore.maxNum([12,3,31,5,3]) // => 31 
+ * @example toolcore.maxNum([12,3,31,5,3]) // => 31
  */
 export const maxNum = (arr) =>
-    Math.max.apply(Math, arr)
+  Math.max.apply(Math, arr)
 
 /**
  * 数组中的最小值
- * @param {array} arr 
- * @example toolcore.minNum([12,3,31,5,3]) // => 3 
+ * @param {array} arr
+ * @example toolcore.minNum([12,3,31,5,3]) // => 3
  */
 export const minNum = (arr) =>
-    Math.min.apply(Math, arr)
+  Math.min.apply(Math, arr)
 
 /**
  * 将数组打乱
- * @param {array} arr 
+ * @param {array} arr
  */
 export const shuffle = (arr) => {
-    let i = arr.length;
-    while (i) {
-        let j = Math.floor(Math.random() * i--);
-        [arr[j], arr[i]] = [arr[i], arr[j]];
-    }
-    return arr
+  let i = arr.length
+  while (i) {
+    let j = Math.floor(Math.random() * i--);
+    [arr[j], arr[i]] = [arr[i], arr[j]]
+  }
+  return arr
 }
 
 /**
@@ -82,7 +82,7 @@ export const equal = (arr1, arr2) => {
   if (arr1 === arr2) return true
   if (arr1.length !== arr2.length) return false
   for (let i = 0; i < arr1.length; ++i) {
-      if (arr1[i] !== arr2[i]) return false
+    if (arr1[i] !== arr2[i]) return false
   }
   return true
 }
