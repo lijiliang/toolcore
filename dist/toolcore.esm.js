@@ -1,5 +1,5 @@
 /*!
-  * toolcore v0.2.3
+  * toolcore v0.2.5
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -91,6 +91,12 @@ var isEmpty = function (value) {
     else if(isString(value)) { return !value }
 	else { return value.toString().length == 0 }
 };
+
+/**
+ * 判断是否为浏览器
+ * @param {any} value 
+ */
+var inBrowser = typeof window !== 'undefined';
 
 /*
  * @Author: Benson
@@ -303,6 +309,6 @@ var equal = function (arr1, arr2) {
 
 // import { version } from './package.json'
 
-var version = '0.2.3'; // 版本号
+var version = '0.2.5'; // 版本号
 
-export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, version };
+export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, inBrowser, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, version };

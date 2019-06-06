@@ -1,5 +1,5 @@
 /*!
-  * toolcore v0.2.3
+  * toolcore v0.2.5
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -315,7 +315,7 @@ var equal = function (arr1, arr2) {
 
 // import { version } from './package.json'
 
-var version = '0.2.3'; // 版本号
+var version = '0.2.5'; // 版本号
 
 exports.isNull = isNull;
 exports.isUndefined = isUndefined;
@@ -345,4 +345,3 @@ exports.version = version;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=toolcore.js.map
