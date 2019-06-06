@@ -15,6 +15,11 @@
     "lint": "eslint --ext .js src --color",
     "lint:fix": "eslint --fix .js src"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lijiliang/toolcore.git"
