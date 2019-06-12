@@ -606,6 +606,76 @@ var throttle = function (fn, delay) {
  * @LastEditTime: 2019-06-05 14:47:08
  * @Description: 数字及数学计算
  */
+/**
+ * 返回指定范围内的随机整数。
+ * @param {number} min 最小值
+ * @param {number} max 最大值
+ * @example toolcore.randomNum(5,10) // => 5 || 6 || 7 || 8 || 9 || 10
+ */
+var randomNum = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; };
+
+/**
+ * 将数字四舍五入到指定的小数位数。
+ * @param {number} n 操作的数字
+ * @param {number} decimals 精确到几位小数
+ * @example toolcore.round(12.555,2) // => 12.56
+ */
+var round = function (n, decimals) {
+  if ( decimals === void 0 ) decimals = 0;
+
+  return Number(((Math.round((n + "e" + decimals))) + "e-" + decimals))
+};
+
+/**
+ * 返回两个或两个以上数字/数字数组中元素之和。
+ * @param  {...any} arr 操作的数组
+ * @example toolcore.sum(...[1,2,3,4,5]) // => 15
+ */
+var sum = function () {
+  var arr = [], len = arguments.length;
+  while ( len-- ) arr[ len ] = arguments[ len ];
+
+  return [].concat( arr ).reduce(function (acc, val) { return accAdd(acc, val); }, 0);
+};
+
+/**
+ * 根据函数映射每个元素，然后返回数组的和
+ * @param {Array} arr
+ * @param {Function} fn
+ * @example toolcore.sumBy([{num:1},{num:2},{num:3},{num:4},{num:5}],(row)=>row.num) // => 15
+ */
+var sumBy = function (arr, fn) { return arr.map(typeof fn === 'function' ? fn : function (val) { return val[fn]; }).reduce(function (acc, val) { return accAdd(acc, val); }, 0); };
+
+/**
+ * 将数字转化为千分位格式,可以在数字前面加上符号
+ * @param {Number|String} num
+ * @param {String} mark
+ * @returns {String}
+ * @example toolcore.toDecimalMark(12345674654.123,'￥') // => "￥12,345,674,654.123"
+ */
+var toDecimalMark = function (num, mark) {
+  if ( mark === void 0 ) mark = '';
+
+  return num.toLocaleString('en-US').replace(/^/, mark);
+};
+
+/**
+ * 实现产生n个随机数，并且随机数之和是固定值,简单版
+ * @param {number} num 随机数之和，固定值
+ * @param {number} len 多少个随机数
+ * @example toolcore.getrandom(10, 4) // =>  [0, 2, 6, 2]
+ */
+var getrandom = function (num, len) {
+  var arr = [];
+  while (arr.length < len - 1) {
+    var Average = Math.ceil(num / (len - arr.length - 1));
+    var _num = Math.floor(randomNum(Average * 0.2, Average * 0.8));
+    arr.push(_num);
+    num = num - _num;
+  }
+  arr.push(num);
+  return shuffle(arr)
+};
 
 /*
  * @Description: 公共方法处理js计算科学记数法精度问题
@@ -680,6 +750,24 @@ var getCorrectResult = function (type, num1, num2, result) {
 };
 
 /**
+ * 加法运算
+ * @param {Number} a
+ * @param {Number} b
+ * @example toolcore.accAdd(0.3 , 0.6) // => 0.9
+ */
+var accAdd = function (num1, num2) {
+  num1 = Number(num1);
+  num2 = Number(num2);
+  var dec1, dec2;
+  try { dec1 = countDecimals(num1) + 1; } catch (e) { dec1 = 0; }
+  try { dec2 = countDecimals(num2) + 1; } catch (e) { dec2 = 0; }
+  var times = Math.pow(10, Math.max(dec1, dec2));
+  // let result = (num1 * times + num2 * times) / times;
+  var result = (accMul(num1, times) + accMul(num2, times)) / times;
+  return getCorrectResult('add', num1, num2, result)
+};
+
+/**
  * 减法运算
  * @param {Number} a
  * @param {Number} b
@@ -715,6 +803,153 @@ function accMul (num1, num2) {
   return getCorrectResult('mul', num1, num2, result)
 }
 
+/**
+ * 除法运算
+ * @param {Number} a
+ * @param {Number} b
+ * @example toolcore.accDiv(0.3 , 0.1) // => 3
+ */
+var accDiv = function (num1, num2) {
+  num1 = Number(num1);
+  num2 = Number(num2);
+  var t1 = 0;
+  var t2 = 0;
+  try { t1 = countDecimals(num1); } catch (e) { t1 = 0; }
+  try { t2 = countDecimals(num2); } catch (e) { t2 = 0; }
+  var dec1 = convertToInt(num1);
+  var dec2 = convertToInt(num2);
+  var result = accMul((dec1 / dec2), Math.pow(10, t2 - t1));
+  return getCorrectResult('div', num1, num2, result)
+};
+
+/**
+ * 深度克隆
+ * @param {*} obj
+ */
+var deepClone = function (obj) {
+  if (obj === null) {
+    return obj
+  }
+  if (obj instanceof Array) {
+    return obj.map(function (row) { return deepClone(row); })
+  }
+  if (obj instanceof Object) {
+    var ret = {};
+    Object.keys(obj).forEach(function (key) {
+      if (obj[key] instanceof Date) {
+        ret[key] = new Date(obj[key].getTime());
+      } else {
+        ret[key] = deepClone(obj[key]);
+      }
+    });
+    return ret
+  }
+  return obj
+};
+
+/**
+ * 返回按属性(props)和顺序(orders)排序的对象数组。
+ * @param {array} arr
+ * @param {array} props
+ * @param {array} orders 'desc升序' 、 'asc降序'
+ * @example const users = [
+                { name: 'aaa', age: 48 },
+                { name: 'awegawe', age: 36 },
+                { name: 'aweaw', age: 40 }
+            ];
+            toolcore.orderBy(users, ['age'],['asc']) // => [{"name":"awegawe","age":36},{"name":"aweaw","age":40},{"name":"aaa","age":48}]
+ */
+var orderBy = function (arr, props, orders) {
+  return [].concat( arr ).sort(function (a, b) { return props.reduce(function (acc, prop, i) {
+      if (acc === 0) {
+        var ref = orders && orders[i] === 'desc' ? [b[prop], a[prop]] : [a[prop], b[prop]];
+        var p1 = ref[0];
+        var p2 = ref[1];
+        acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0;
+      }
+      return acc
+    }, 0); }
+  )
+};
+
+/**
+ * 根据 key 递归查找链带关系
+ * @param {sting} leafIdName
+ * @param {any} leafId
+ * @param {array} nodes 被查找的数组
+ * @param {array} path 非必填
+ * @param {array} path 非必填
+ * @example let arr = [
+                    {
+                        name:'awefawef',
+                        id:111,
+                        children:[
+                            {
+                                name:'2222222aaa',
+                                id:222,
+                                children:[
+                                    {
+                                        name:'cccccaaa',
+                                        id:333,
+                                    }
+                                ]
+                            }
+                        ]
+                }
+            ]
+            toolcore.findPathByLeafId('id',333,arr) // => [{"id":111,"value":"awefawef"},{"id":222,"value":"2222222aaa"}]
+ */
+var findPathByLeafId = function (leafIdName, leafId, nodes, path) {
+  var obj;
+
+  if ( path === void 0 ) path = [];
+  for (var i = 0; i < nodes.length; i++) {
+    var tmpPath = [].concat( path );
+    if (leafId === nodes[i][leafIdName]) {
+      return tmpPath
+    }
+
+    tmpPath.push(( obj = {}, obj[leafIdName] = nodes[i][leafIdName], obj.value = nodes[i].name, obj));
+    if (nodes[i].children) {
+      var findResult = findPathByLeafId(leafIdName, leafId, nodes[i].children, tmpPath);
+      if (findResult) {
+        return findResult
+      }
+    }
+  }
+};
+
+/**
+ * 对象合并
+ * @param {object} a 对象
+ * @param {object} b 对象
+ * @example var a = {
+                a:11,
+                o:{
+                    b:22
+            }
+            var b = {
+                c:33,
+                o:{
+                    d:44
+                }
+            }
+            toolcore.merge(a,b)
+            // =>
+            {"a":11,"o":{"b":22,"d":44},"c":33}
+}
+ */
+var merge = function (a, b) {
+  for (var key in b) {
+    if (!a.hasOwnProperty(key)) {
+      a[key] = b[key];
+    } else if (isObject(b[key]) && isObject(a[key])) {
+      merge(a[key], b[key]);
+    }
+  }
+  return a
+};
+
 var version = '0.3.1'; // 版本号
 
 exports.isNull = isNull;
@@ -747,7 +982,20 @@ exports.debounceStart = debounceStart;
 exports.debounceEnd = debounceEnd;
 exports.debounce = debounce;
 exports.throttle = throttle;
+exports.randomNum = randomNum;
+exports.round = round;
+exports.sum = sum;
+exports.sumBy = sumBy;
+exports.toDecimalMark = toDecimalMark;
+exports.getrandom = getrandom;
+exports.accAdd = accAdd;
 exports.accSub = accSub;
+exports.accMul = accMul;
+exports.accDiv = accDiv;
+exports.deepClone = deepClone;
+exports.orderBy = orderBy;
+exports.findPathByLeafId = findPathByLeafId;
+exports.merge = merge;
 exports.version = version;
 
 Object.defineProperty(exports, '__esModule', { value: true });

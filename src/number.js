@@ -54,6 +54,7 @@ export const toDecimalMark = (num, mark = '') => num.toLocaleString('en-US').rep
  * 实现产生n个随机数，并且随机数之和是固定值,简单版
  * @param {number} num 随机数之和，固定值
  * @param {number} len 多少个随机数
+ * @example toolcore.getrandom(10, 4) // =>  [0, 2, 6, 2]
  */
 export const getrandom = (num, len) => {
   var arr = []

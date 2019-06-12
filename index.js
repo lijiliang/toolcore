@@ -3,7 +3,8 @@ import { encode, decode } from './src/base64'
 import { uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal } from './src/array'
 import { timejs, formatHMS, unix } from './src/date'
 import { debounceStart, debounceEnd, debounce, throttle } from './src/function'
-import { accSub } from './src/number'
+import { randomNum, round, sum, sumBy, toDecimalMark, getrandom, accAdd, accSub, accMul, accDiv } from './src/number'
+import { deepClone, orderBy, findPathByLeafId, merge } from './src/object'
 
 const version = '__VERSION__' // 版本号
 
@@ -13,6 +14,7 @@ export {
   uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal,
   timejs, formatHMS, unix,
   debounceStart, debounceEnd, debounce, throttle,
-  accSub,
+  randomNum, round, sum, sumBy, toDecimalMark, getrandom, accAdd, accSub, accMul, accDiv,
+  deepClone, orderBy, findPathByLeafId, merge,
   version
 }
