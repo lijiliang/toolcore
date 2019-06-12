@@ -1,5 +1,5 @@
 /*!
-  * toolcore v1.0.0
+  * toolcore v1.0.1
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -1143,6 +1143,6 @@ const Url = (urlString) => {
   }
 };
 
-const version = '1.0.0'; // 版本号
+const version = '1.0.1'; // 版本号
 
 export { isNull, isUndefined, isBoolean, isNumber, isString, isSymbol, isObject, isRegExp, isArray, isFunction, getType, isEmpty, inBrowser, encode, decode, uniqueBy, unique, maxNumBy, minNumBy, maxNum, minNum, shuffle, equal, timejs, formatHMS, unix, debounceStart, debounceEnd, debounce, throttle, randomNum, round, sum, sumBy, toDecimalMark, getrandom, accAdd, accSub, accMul, accDiv, deepClone, orderBy, findPathByLeafId, merge, mask, maskLeft, maskRight, randomHexColorCode, getCounts, uuid, guid, insertUrl, URLSearchParams, Url, version };

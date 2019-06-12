@@ -1,5 +1,5 @@
 /*!
-  * toolcore v1.0.0
+  * toolcore v1.0.1
   * https://github.com/lijiliang/toolcore
   * 
   * Copyright (c) 2019 Benson
@@ -1200,7 +1200,7 @@ var Url = function (urlString) {
   }
 };
 
-var version = '1.0.0'; // 版本号
+var version = '1.0.1'; // 版本号
 
 exports.isNull = isNull;
 exports.isUndefined = isUndefined;
