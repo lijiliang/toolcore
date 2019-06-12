@@ -950,6 +950,258 @@ var merge = function (a, b) {
   return a
 };
 
+/**
+ * 根据位置,使用 * 遮蔽字符串
+ * @param {string} cc
+ * @param {number} num1
+ * @param {number} num2
+ * @param {string} _mask
+ * @example toolcore.mask('12398765432',3,7) // => "123****5432"
+ */
+var mask = function (cc, num1, num2, _mask) {
+  if ( num1 === void 0 ) num1 = 0;
+  if ( num2 === void 0 ) num2 = 0;
+  if ( _mask === void 0 ) _mask = '*';
+
+  // eslint-disable-next-line no-useless-escape
+  var reg = new RegExp(("^(.{" + num1 + "})(.{" + (num2 - num1) + "})(." + (num2 >= cc.length ? '\?' : '\+') + ")$"));
+  return cc.replace(reg, function ($0, $1, $2, $3) { return $1 + $2.replace(/./g, _mask) + $3; })
+};
+
+/**
+ * 从位置左边开始，使用 * 遮蔽字符串
+ * @param {string} cc
+ * @param {number} num
+ * @param {string} _mask
+ * @example 用法跟 mask 类似
+ */
+var maskLeft = function (cc, num, _mask) {
+  if ( num === void 0 ) num = 0;
+  if ( _mask === void 0 ) _mask = '*';
+
+  return mask(cc, 0, num, _mask);
+};
+
+/**
+ * 从位置右边开始，使用 * 遮蔽字符串
+ * @param {string} cc
+ * @param {number} num
+ * @param {string} _mask
+ * @example 用法跟 mask 类似
+ */
+var maskRight = function (cc, num, _mask) {
+  if ( num === void 0 ) num = 0;
+  if ( _mask === void 0 ) _mask = '*';
+
+  var strL = cc.length;
+  return mask(cc, num > strL ? 0 : strL - num, strL, _mask)
+};
+
+/**
+ * 生成一个随机的十六进制颜色代码
+ * @example toolcore.randomHexColorCode() // => "#c4aabc"
+ */
+var randomHexColorCode = function () {
+  var n = ((Math.random() * 0xfffff) | 0).toString(16);
+  return '#' + (n.length !== 6 ? ((Math.random() * 0xf) | 0).toString(16) + n : n)
+};
+
+/**
+ * 返回元素出现的次数
+ * @param {string} str
+ * @param {null|string,array} keys
+ * @example 1.不传参,获取全部
+              toolcore.getCounts('asawdawf') // => {a: 3, s: 1, w: 2, d: 1, f: 1}
+            2.传字符串
+              toolcore.getCounts('asasfdfasdasf','asf') // => {asf: 2}
+            3.传数组
+              toolcore.getCounts('asdfjl;qwoetuqwe*(^&&()_)*_23480*yoij)(ojilA4WE4',['we*(^&&()_)*','asdfjl','_23480','qw'])
+              // => {we*(^&&()_)*: 1, asdfjl: 1, _23480: 1, qw: 2}
+ */
+var getCounts = function (str, keys) {
+  if ( keys === void 0 ) keys = null;
+
+  var arr = {};
+  var keyMap = [];
+  var arrStr = str.split('');
+
+  if (isArray(keys)) { keyMap = unique(keys); }
+  else if (isString(keys)) { keyMap = keys.split(' '); }
+  else { keyMap = unique(arrStr); }
+
+  keyMap.map(function (key) {
+    // 处理包含特殊字符
+    // eslint-disable-next-line no-useless-escape
+    var reg = new RegExp("\([`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]\)", 'g');
+    var _key = key.replace(reg, '\\$1');
+
+    var res = str.match(new RegExp(_key, 'g'));
+
+    arr[key] = res ? (arr[key] = res.length) : 0;
+  });
+
+  return arr
+};
+
+/**
+ * 全局唯一标识符 UUID
+ * @param {number} len 长度
+ * @param {number} radix 基数 62
+ * @example toolcore.uuid(10,62) // => "e424F79HP8"
+ */
+var uuid = function (len, radix) {
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  var uuid = []; var i;
+  radix = radix || chars.length;
+
+  if (len) {
+    // Compact form
+    for (i = 0; i < len; i++) { uuid[i] = chars[0 | Math.random() * radix]; }
+  } else {
+    // rfc4122, version 4 form
+    var r;
+
+    // rfc4122 requires these characters
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+
+    // Fill in random data.  At i==19 set the high bits of clock sequence as
+    // per rfc4122, sec. 4.1.5
+    for (i = 0; i < 36; i++) {
+      if (!uuid[i]) {
+        r = 0 | Math.random() * 16;
+        uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
+      }
+    }
+  }
+
+  return uuid.join('')
+};
+
+/**
+ * GUID:128位的数字标识符
+ * @example toolcore.guid() // => "537a3b5a-5c1b-433d-9814-532efdda6b10"
+ */
+var guid = function () {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0; var v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16)
+  })
+};
+
+/*
+ * @Author: Benson
+ * @Date: 2019-06-05 14:45:01
+ * @LastEditors: Benson
+ * @LastEditTime: 2019-06-12 16:46:19
+ * @Description: Url处理
+ */
+/**
+ * 根据对象中的参数匹配插入到url中
+ * @param {*} url
+ * @param {Object} options
+ * @example toolcore.insertUrl('http://www.baidu.com?:name',{name:'ceshi'}) // => http://www.baidu.com?ceshi
+ */
+var insertUrl = function (url, options) {
+  if ( options === void 0 ) options = {};
+
+  return url.replace(/:([a-zA-Z0-9_]{1,})/g, function ($0, $1) {
+    var val = encodeURIComponent(options[$1]);
+    return val
+  })
+};
+
+/**
+ * url 序列化和反序列化
+ * @param {Object|String} param
+ * @example toolcore.URLSearchParams('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=parseQueryString&rsv_pq=8c7a6d0000146171&rsv_t=43d6RzTiyjUjUKtQtqfR3XL25JepKFwJYvvSpsj%2BJ7aFqxdBLDungY%2Bfx%2BE&rqlang=cn&rsv_enter=1&rsv_n=2&rsv_sug3=1')
+            // =>
+            {
+                "ie":"utf-8",
+                "f":"8",
+                "rsv_bp":"1",
+                "rsv_idx":"1",
+                "tn":"baidu",
+                "wd":"parseQueryString",
+                "rsv_pq":"8c7a6d0000146171",
+                "rsv_t":"43d6RzTiyjUjUKtQtqfR3XL25JepKFwJYvvSpsj+J7aFqxdBLDungY+fx+E",
+                "rqlang":"cn",
+                "rsv_enter":"1",
+                "rsv_n":"2",
+                "rsv_sug3":"1"
+            }
+            toolcore.URLSearchParams({
+                name:'cgx',
+                test:'ceshi'
+            })
+            // => "name=cgx&test=ceshi"
+ */
+
+var URLSearchParams = function (param) {
+  if (isObject(param)) {
+    return Object.keys(param).map(function (key) { return (key + "=" + (encodeURIComponent(JSON.stringify(param[key])))); }).join('&')
+  } else if (isString(param)) {
+    var maps = {};
+    // eslint-disable-next-line no-useless-escape
+    var _params = param.match(/(([\w%~!*\(\)\-.']+)\=([\w%~!*\(\)\-.']+)?)/ig);
+    _params && _params.forEach(function (res) {
+      var row = decodeURIComponent(res).split('=');
+      try {
+        maps[row[0]] = JSON.parse(decodeURIComponent(row[1]));
+      } catch (err) {
+        try {
+          maps[row[0]] = decodeURIComponent(row[1]);
+        // eslint-disable-next-line brace-style
+        }
+        // 特殊字符情况
+        catch (err) {
+          maps[row[0]] = row[1];
+        }
+      }
+    });
+    return maps
+  }
+};
+
+/**
+ * 返回网址的相关信息，模拟了 浏览器的 new URL(urlString) 部分功能
+ * @param {string} urlString url网址
+ * @returns {object}
+ * @example toolcore.Url('https://localhost:3000/translate?aldtype=16047&query=&keyfrom=baidu&smartresult=dict&lang=auto2zh#zh/en/%E7%AB%AF%E5%8F%A3')
+                // =>
+                // {
+                //     hash: "#zh/en/%E7%AB%AF%E5%8F%A3",
+                //     host: "localhost:3000",
+                //     hostname: "localhost",
+                //     href: "https://localhost:3000/translate?aldtype=16047&query=&keyfrom=baidu&smartresult=dict&lang=auto2zh#zh/en/%E7%AB%AF%E5%8F%A3",
+                //     origin: "https://localhost:3000",
+                //     pathname: "/translate",
+                //     port: "3000",
+                //     protocol: "https:",
+                //     search: "?aldtype=16047&query=&keyfrom=baidu&smartresult=dict&lang=auto2zh"
+                // }
+ */
+var Url = function (urlString) {
+  try {
+    // eslint-disable-next-line no-useless-escape
+    var ref = /((http:|https:)\/\/(([\w.\-]+)(\:(\d+))?))([\w\/\-]+)?((\?[^#]+)(.+)?)?/ig.exec(urlString);
+    var href = ref[0];
+    var origin = ref[1];
+    var protocol = ref[2];
+    var host = ref[3];
+    var hostname = ref[4];
+    var portName = ref[5];
+    var port = ref[6];
+    var pathname = ref[7];
+    var searchName = ref[8];
+    var search = ref[9];
+    var hash = ref[10];
+    return { href: href, origin: origin, protocol: protocol, host: host, hostname: hostname, portName: portName, port: port, pathname: pathname, searchName: searchName, search: search, hash: hash }
+  } catch (err) {
+    console.error(("Raises a SYNTAX ERROR exception as 'about:blank/" + urlString + "' is not valid"));
+  }
+};
+
 var version = '0.3.1'; // 版本号
 
 exports.isNull = isNull;
@@ -996,6 +1248,16 @@ exports.deepClone = deepClone;
 exports.orderBy = orderBy;
 exports.findPathByLeafId = findPathByLeafId;
 exports.merge = merge;
+exports.mask = mask;
+exports.maskLeft = maskLeft;
+exports.maskRight = maskRight;
+exports.randomHexColorCode = randomHexColorCode;
+exports.getCounts = getCounts;
+exports.uuid = uuid;
+exports.guid = guid;
+exports.insertUrl = insertUrl;
+exports.URLSearchParams = URLSearchParams;
+exports.Url = Url;
 exports.version = version;
 
 Object.defineProperty(exports, '__esModule', { value: true });
